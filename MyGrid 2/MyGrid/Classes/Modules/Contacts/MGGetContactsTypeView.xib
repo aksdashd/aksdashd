@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MGGetContactsTypeView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f10-Ti-9Vt" userLabel="View-Header">
+                    <rect key="frame" x="0.0" y="1" width="414" height="57"/>
+                    <color key="backgroundColor" red="0.2156862745" green="0.55294117649999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="57" id="LQN-Ma-KvK"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gbb-qs-3u2" userLabel="View-Title">
+                    <rect key="frame" x="0.0" y="58" width="414" height="40"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contacts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1tR-HE-kVI">
+                            <rect key="frame" x="56" y="13" width="84" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="84" id="emh-pG-Ghs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="import_contacts@1x" translatesAutoresizingMaskIntoConstraints="NO" id="KIP-mn-vg9">
+                            <rect key="frame" x="8" y="5" width="40" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="34" id="30l-eM-3xI"/>
+                                <constraint firstAttribute="width" constant="40" id="bWP-Aw-0Op"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7s-PR-eNw">
+                            <rect key="frame" x="375" y="5" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="Zxk-fq-WTe"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="cross@1x"/>
+                            <connections>
+                                <action selector="actionCancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="QXC-kN-bTW"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.47058823529999999" green="0.69803921570000005" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="1tR-HE-kVI" secondAttribute="bottom" constant="12" id="2Hg-rg-HAL"/>
+                        <constraint firstItem="1tR-HE-kVI" firstAttribute="top" secondItem="gbb-qs-3u2" secondAttribute="top" constant="13" id="5EK-tc-zOG"/>
+                        <constraint firstItem="t7s-PR-eNw" firstAttribute="top" secondItem="gbb-qs-3u2" secondAttribute="top" constant="5" id="5sZ-g6-AZx"/>
+                        <constraint firstAttribute="height" constant="40" id="8Sy-2V-BNQ"/>
+                        <constraint firstAttribute="trailing" secondItem="1tR-HE-kVI" secondAttribute="trailing" constant="274" id="ANl-gQ-MEh"/>
+                        <constraint firstAttribute="trailing" secondItem="t7s-PR-eNw" secondAttribute="trailing" constant="9" id="F8n-DZ-kc4"/>
+                        <constraint firstItem="KIP-mn-vg9" firstAttribute="leading" secondItem="gbb-qs-3u2" secondAttribute="leading" constant="8" id="MBv-2h-2my"/>
+                        <constraint firstItem="KIP-mn-vg9" firstAttribute="centerY" secondItem="gbb-qs-3u2" secondAttribute="centerY" constant="2" id="VKi-kH-XLX"/>
+                        <constraint firstItem="KIP-mn-vg9" firstAttribute="top" secondItem="gbb-qs-3u2" secondAttribute="top" constant="5" id="fug-d6-zaS"/>
+                        <constraint firstAttribute="bottom" secondItem="t7s-PR-eNw" secondAttribute="bottom" constant="5" id="lXc-Q7-SbB"/>
+                        <constraint firstItem="1tR-HE-kVI" firstAttribute="leading" secondItem="KIP-mn-vg9" secondAttribute="trailing" constant="8" id="ryk-ob-HuC"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="fug-d6-zaS"/>
+                            <exclude reference="ANl-gQ-MEh"/>
+                        </mask>
+                    </variation>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="46L-QE-sF5">
+                    <rect key="frame" x="0.0" y="99" width="414" height="637"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="637" id="47R-UT-jnJ"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="iN0-l3-epB" id="kFN-zb-2Nd"/>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="J2y-fZ-jOF"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="f10-Ti-9Vt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="1" id="5YV-Wz-Gt8"/>
+                <constraint firstItem="46L-QE-sF5" firstAttribute="top" secondItem="gbb-qs-3u2" secondAttribute="bottom" constant="1" id="A5B-3z-R6Q"/>
+                <constraint firstItem="f10-Ti-9Vt" firstAttribute="leading" secondItem="gbb-qs-3u2" secondAttribute="leading" id="Ban-Tw-hSS"/>
+                <constraint firstItem="f10-Ti-9Vt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="CBW-NI-PX0"/>
+                <constraint firstAttribute="trailing" secondItem="46L-QE-sF5" secondAttribute="trailing" id="NUG-9n-0Dl"/>
+                <constraint firstItem="gbb-qs-3u2" firstAttribute="top" secondItem="f10-Ti-9Vt" secondAttribute="bottom" id="dzC-57-kO0"/>
+                <constraint firstAttribute="trailing" secondItem="f10-Ti-9Vt" secondAttribute="trailing" id="gte-q6-9QJ"/>
+                <constraint firstItem="46L-QE-sF5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lTA-Rj-RVu"/>
+                <constraint firstItem="f10-Ti-9Vt" firstAttribute="trailing" secondItem="gbb-qs-3u2" secondAttribute="trailing" id="ppE-BB-0Fy"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <connections>
+                <outlet property="tableContacts" destination="46L-QE-sF5" id="WYR-yZ-0I4"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="cross@1x" width="25" height="25"/>
+        <image name="import_contacts@1x" width="43" height="43"/>
+    </resources>
+</document>

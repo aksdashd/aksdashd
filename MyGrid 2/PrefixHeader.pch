@@ -1,0 +1,30 @@
+//
+//  PrefixHeader.pch
+//  MyGrid
+//
+//  Created by Devashis on 19/03/16.
+//  Copyright © 2016 Devashis. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "MGConstants.h"
+#import "AppDelegate.h"
+#import "MGUserDefaults.h"
+
+#define BASE_URL @"​http://clients.vfactor.in/mygrids/api/"
+#define Akash_AccessToken @"MQT3NWM5NWidM3UHDUSUEllFF8NTNG8jT3AHzVlGB8NQRmhVQjUXQFAQznNXQmEcvUi5B8NsAmtHQHJm"
+#define userIDsaved @65
+#endif
+
+#endif /* PrefixHeader_pch */

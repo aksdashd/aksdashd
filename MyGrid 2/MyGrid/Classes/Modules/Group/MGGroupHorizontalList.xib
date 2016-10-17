@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MGGroupHorizontalList">
+            <rect key="frame" x="0.0" y="0.0" width="399" height="89"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5D-xP-aTD">
+                    <rect key="frame" x="0.0" y="0.0" width="399" height="89"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="k5D-xP-aTD" secondAttribute="bottom" id="6hK-FA-ngC"/>
+                <constraint firstItem="k5D-xP-aTD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="dDd-Sd-8Gs"/>
+                <constraint firstItem="k5D-xP-aTD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eeT-Sw-ajp"/>
+                <constraint firstAttribute="trailing" secondItem="k5D-xP-aTD" secondAttribute="trailing" id="tYa-rk-ptz"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="scrollView" destination="k5D-xP-aTD" id="Gip-wm-Tqj"/>
+            </connections>
+            <point key="canvasLocation" x="234.5" y="-288.5"/>
+        </view>
+    </objects>
+</document>

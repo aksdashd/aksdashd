@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MGAddToCircleViewController">
+            <connections>
+                <outlet property="addUsersToCirclesTableView" destination="3FB-ak-nNE" id="TH1-fK-aHB"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grq-LM-Kgx">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6eV-Fn-QYT">
+                            <rect key="frame" x="10" y="10" width="48" height="41"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="48" id="CE8-Pc-0bn"/>
+                                <constraint firstAttribute="height" constant="41" id="FhI-6F-zIL"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="logo_signin"/>
+                            <connections>
+                                <action selector="showActionMenu:" destination="-1" eventType="touchUpInside" id="dCx-r0-uRP"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oah-Av-0hl">
+                            <rect key="frame" x="358" y="15" width="46" height="30"/>
+                            <state key="normal" title="Save"/>
+                            <connections>
+                                <action selector="Save:" destination="-1" eventType="touchUpInside" id="c5Q-cf-r00"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.2156862745" green="0.55294117649999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="6eV-Fn-QYT" firstAttribute="centerY" secondItem="grq-LM-Kgx" secondAttribute="centerY" id="6jm-UK-USi"/>
+                        <constraint firstAttribute="height" constant="60" id="Msk-LP-QH0"/>
+                        <constraint firstAttribute="trailing" secondItem="Oah-Av-0hl" secondAttribute="trailing" constant="10" id="OXP-l8-D2F"/>
+                        <constraint firstItem="6eV-Fn-QYT" firstAttribute="leading" secondItem="grq-LM-Kgx" secondAttribute="leading" constant="10" id="YAe-Lu-iKJ"/>
+                        <constraint firstItem="Oah-Av-0hl" firstAttribute="centerY" secondItem="6eV-Fn-QYT" secondAttribute="centerY" id="yOb-LX-g2O"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3FB-ak-nNE">
+                    <rect key="frame" x="0.0" y="60" width="414" height="676"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="O32-t7-r3N"/>
+                        <outlet property="delegate" destination="-1" id="L3Q-SA-POX"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="grq-LM-Kgx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7fn-g5-cLg"/>
+                <constraint firstItem="3FB-ak-nNE" firstAttribute="top" secondItem="grq-LM-Kgx" secondAttribute="bottom" id="CUA-Ee-zSF"/>
+                <constraint firstAttribute="trailing" secondItem="grq-LM-Kgx" secondAttribute="trailing" id="L7c-0E-uk5"/>
+                <constraint firstAttribute="trailing" secondItem="3FB-ak-nNE" secondAttribute="trailing" id="NKh-to-hjZ"/>
+                <constraint firstItem="grq-LM-Kgx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="RK5-XX-auT"/>
+                <constraint firstItem="3FB-ak-nNE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="bUa-KX-fXE"/>
+                <constraint firstItem="3FB-ak-nNE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cul-BV-fxu"/>
+                <constraint firstAttribute="bottom" secondItem="3FB-ak-nNE" secondAttribute="bottom" id="vLE-Ym-d9K"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="bUa-KX-fXE"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="logo_signin" width="156" height="143"/>
+    </resources>
+</document>
