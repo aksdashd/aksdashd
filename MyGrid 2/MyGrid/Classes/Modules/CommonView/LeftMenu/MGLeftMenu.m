@@ -109,7 +109,7 @@ const int LogOutIndex = 6;
 }
 - (void)actionLeftSWipe
 {
-    [self removeFromSuperview];
+    self.hidden = YES;
 }
 
 

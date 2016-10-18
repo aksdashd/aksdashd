@@ -358,6 +358,8 @@ static NSString *const DemoDeviceToken = @"740f4707bebcf74f9b7c25d48e3358945f6aa
           [self.window addSubview:self.leftMenu];
     }
     
+    [self.leftMenu setHidden:NO];
+    
    [UIView animateWithDuration:1.0 animations:^{
        self.leftMenu.frame = CGRectMake(0, parentViewController.view.frame.origin.y+57, 220, parentViewController.view.frame.size.height-57);
    }];
