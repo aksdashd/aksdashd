@@ -237,7 +237,7 @@ static NSString *const PeopleNearByPostfix = @"nearbyusers";
     }
     
     //Get PeopleNearBY
-   MGPeopleNearByDAO *nearByDAO = [MGPeopleNearByDAO new];
+  /* MGPeopleNearByDAO *nearByDAO = [MGPeopleNearByDAO new];
     
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
@@ -314,7 +314,7 @@ static NSString *const PeopleNearByPostfix = @"nearbyusers";
                          }
 
                      
-                     }];
+                     }];*/
 
   
     

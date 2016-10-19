@@ -332,6 +332,8 @@ static NSString *const DemoDeviceToken = @"740f4707bebcf74f9b7c25d48e3358945f6aa
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MGINVITATIONNOTIFICATION object:nil];
     
+    
+    
 }
 
 

@@ -16,6 +16,10 @@
 
 #import "MGLeftMenuRightImageTableViewCell.h"
 
+#import "MGUserProfileDAO.h"
+
+#import "UserProfileModel.h"
+
 static NSString * const PeopleNearbyImageName = @"pepole_nearby";
 static NSString * const MessagesImageName = @"messages_icon";
 static NSString * const CreateNewCircleImageName = @"create_new_cirlce";
@@ -23,6 +27,7 @@ static NSString * const MyGridImageName = @"my_grid";
 static NSString * const InviteImageName = @"invite";
 static NSString * const SettingsImageName = @"setting_menu";
 static NSString * const LogOutImageName = @"logout_menu";
+static NSString *const ProfilePostfix = @"userprofile";
 
 const int SettingsIndex = 5;
 const int LogOutIndex = 6;
@@ -32,6 +37,8 @@ const int LogOutIndex = 6;
 {
     NSArray *_contentsArray;
 }
+
+@property (nonatomic,strong)UserProfileModel *userProfile;
 
 @end
 
@@ -60,6 +67,8 @@ const int LogOutIndex = 6;
     [self addGestureRecognizer:leftSwipe];
     
     [self createModelDataForList];
+    
+    [self fetchUserProfile];
     
 }
 
@@ -109,7 +118,13 @@ const int LogOutIndex = 6;
 }
 - (void)actionLeftSWipe
 {
-    self.hidden = YES;
+   
+    
+    /*[UIView animateWithDuration:1.0 animations:^{
+        
+    }];*/
+    
+     self.hidden = YES;
 }
 
 
@@ -119,6 +134,78 @@ const int LogOutIndex = 6;
 {
     return [_contentsArray count];
 }
+
+-(void)updateUI{
+    
+    self.userName.text = self.userProfile.userName;
+    //self.userAge.text = self.userProfile.user
+    if(self.userProfile.userImage){
+        [self loadFromURL:[NSURL URLWithString: self.userProfile.userImage] callback:^(UIImage *image) {
+            self.userImage.image = image;
+            
+        }];
+    }
+
+    
+    
+}
+
+-(void) loadFromURL: (NSURL*) url callback:(void (^)(UIImage *image))callback {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(queue, ^{
+        NSData * imageData = [NSData dataWithContentsOfURL:url];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIImage *image = [UIImage imageWithData:imageData];
+            callback(image);
+        });
+    });
+}
+
+
+-(void)fetchUserProfile{
+    MGUserProfileDAO *userProfileDAO = [MGUserProfileDAO new];
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
+    
+    [userProfileDAO getUserProfileWithData:userId other_id:userId accessToken:[[MGUserDefaults sharedDefault] getAccessToken] UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,ProfilePostfix] WithSuccessCallBack:^(BOOL success, NSDictionary *dataDictionary, NSError *error) {
+        
+        if (dataDictionary != nil)
+        {
+            self.userProfile = nil;
+            NSDictionary *dicOutput = [dataDictionary objectForKey:MGOUTPUT];
+            NSArray *arrData = [dataDictionary objectForKey:@"data"];
+            
+            if ([[dicOutput objectForKey:@"status"] isEqualToString:@"1"])
+            {
+                
+                NSDictionary *userProfileData = [dicOutput objectForKey:@"data"];
+                
+                if(userProfileData){
+                    UserProfileModel *upModel = [[UserProfileModel alloc]init];
+                    upModel.userId = [[userProfileData objectForKey:@"user_id"] integerValue];
+                    upModel.userName = [userProfileData objectForKey:@"user_name"];
+                    upModel.dob = [userProfileData objectForKey:@"user_dob"];
+                    upModel.userPhone = [userProfileData objectForKey:@"user_phone"];
+                    upModel.cityID = [[userProfileData objectForKey:@"city_id"] integerValue];
+                    
+                    upModel.circlesCount = [[userProfileData objectForKey:@"circles_count"] integerValue];
+                    upModel.connectionsCount = [[userProfileData objectForKey:@"connections_count"] integerValue];
+                    upModel.userGender = [[userProfileData objectForKey:@"user_gender"] integerValue];
+                    upModel.userImage = [userProfileData objectForKey:@"user_image"];
+                    upModel.message = [userProfileData objectForKey:@"message"];
+                    
+                    self.userProfile = upModel;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self updateUI];
+                    });
+                    
+                }
+            }
+        }
+    }];
+}
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
