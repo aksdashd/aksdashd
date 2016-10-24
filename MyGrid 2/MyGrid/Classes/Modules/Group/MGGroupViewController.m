@@ -195,7 +195,7 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self fetchContactsForUser];
+    //[self fetchContactsForUser];
 }
 
 #pragma mark - Stub & UI for Group icons
@@ -238,7 +238,59 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
     [self.userCirclesArray addObject:newContact];
 }
 
-- (void)fetchContactsForUser
+/*- (void)fetchContactsForUser
+{
+    NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
+    MGContactsDAO *contactDAO = [MGContactsDAO new];
+    NSLog(@"Access Token:%@",[[MGUserDefaults sharedDefault] getAccessToken]);
+    [contactDAO getContactsOfUserId:userId
+                        accessToken:[[MGUserDefaults sharedDefault] getAccessToken]
+                          UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,ConatctsPostFix]
+                WithSuccessCallBack:^(BOOL success, NSDictionary *dataDictionary, NSError *error) {
+                    
+                    if (dataDictionary != nil)
+                    {
+                        NSDictionary *outputDictionary = [dataDictionary objectForKey:MGOUTPUT];
+                        if (outputDictionary != nil)
+                        {
+                            NSInteger status = [[outputDictionary objectForKey:MGSTATUS] integerValue];
+                            if (status == 1)
+                            {
+                                //if (self.arrayForContacts != nil)
+                                {
+                                    _arrayForContacts = nil;
+                                    _arrayForContacts = [NSMutableArray new];
+                                    
+                                }
+                                NSArray *dataArray = [outputDictionary objectForKey:MGDATA];
+                                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+                                 {
+                                     MGContactItemsModel *model = [MGContactItemsModel new];
+                                     NSDictionary *dataDictionary = obj;
+                                     model.displayName = [dataDictionary objectForKey:DISPLAY_NAME];
+                                     model.contactId = [[dataDictionary objectForKey:USER_ID] integerValue];
+                                     [self.arrayForContacts addObject:model];
+                                     
+                                     if (idx == [dataArray count] - 1)
+                                     {
+                                         [self.groupMembersCollectionView setupProductListWirhArray:self.arrayForContacts];
+                                         
+                                     }
+                                 }];
+                                
+                                
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
+                    }
+                    
+                }];
+}*/
+
+- (void)fetchContactsForUser // Changes as per new reuirement without friends list...
 {
     NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
     MGContactsDAO *contactDAO = [MGContactsDAO new];
@@ -596,7 +648,7 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
         }
     }
     
-    return self.self.arrayForContacts;
+    return self.arrayForContacts;
 
 }
 
@@ -663,6 +715,7 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
         }
             
             break;
+            
             
             
     }

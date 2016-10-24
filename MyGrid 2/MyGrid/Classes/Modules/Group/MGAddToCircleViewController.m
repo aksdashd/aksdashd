@@ -26,6 +26,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [self.addUsersToCirclesTableView reloadData];
 }
 
@@ -71,5 +72,7 @@
 - (IBAction)Save:(id)sender {
     
 }
+
+
 
 @end

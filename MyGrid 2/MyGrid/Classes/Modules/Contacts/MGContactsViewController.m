@@ -28,14 +28,23 @@
 
 #import "MGInvitationsViewController.h"
 
+#import <AddressBook/AddressBook.h>
+
+#import <AddressBookUI/AddressBookUI.h>
+
+#import <Contacts/Contacts.h>
+
+#import <ContactsUI/ContactsUI.h>
 
 //#import "MGLeftMenu.h"
 
 #import "MGContactsDAO.h"
 
+#import "MBProgressHUD.h"
 
 
-@interface MGContactsViewController ()<UITableViewDataSource,
+
+@interface MGContactsViewController ()<UITableViewDataSource,ABPeoplePickerNavigationControllerDelegate,
                                        UITableViewDelegate,
                                        MGAppDelegate,
                                        GIDSignInUIDelegate,
@@ -175,7 +184,16 @@
 
 - (void)compareData
 {
-    if (_arrayForContacts == nil)
+    if(self.arrayForContacts == nil){
+        self.arrayForContacts = [NSMutableArray new];
+    }
+    [self.arrayForContacts removeAllObjects];
+    
+    
+    [self.arrayForContacts addObjectsFromArray:self.phoneContactList];
+    
+    
+    /*  if (_arrayForContacts == nil)
     {
         _arrayForContacts = [NSMutableArray new];
     }
@@ -230,7 +248,9 @@
             
         }
         
-    }
+    }*/
+    
+    
     [self.tableContacts reloadData];
 }
 
@@ -402,6 +422,8 @@ dismissViewController:(UIViewController *)viewController {
     cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2;
     cell.userImage.layer.masksToBounds = YES;
     cell.userName.text = model.displayName;
+    
+    cell.userEmail.text = model.emailAddress;
     cell.containerView.backgroundColor = [UIColor whiteColor];
     UIColor *bgColor = [UIColor whiteColor];
     
@@ -420,7 +442,7 @@ dismissViewController:(UIViewController *)viewController {
     [cell.userEmail bringToFront];
     [cell.inviteButton bringToFront];
     [cell.disclosureButton bringToFront];
-  
+    [cell.inviteButton addTarget:self action:@selector(inviteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
 /*    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
@@ -501,6 +523,41 @@ dismissViewController:(UIViewController *)viewController {
 
 }
 
+-(void)inviteButtonClicked:(UIButton *)sender{
+     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableContacts];
+    NSIndexPath *indexPath = [self.tableContacts indexPathForRowAtPoint:buttonPosition];
+    
+    MGContactItemsModel *contact = [self.arrayForContacts objectAtIndex:indexPath.row];
+    
+    if(contact){
+        NSDictionary *contactDictionary = @{@"name":contact.displayName,
+             @"email":contact.emailAddress,
+           @"contact":[[NSNumber numberWithInteger:contact.phoneNumber] stringValue],
+            @"source":[[NSNumber numberWithInteger: contact.contactType] stringValue]
+                                            };
+        NSMutableArray *array = [NSMutableArray new];
+        [array addObject:contactDictionary];
+        
+        NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
+        MGContactsDAO *contactDAO = [MGContactsDAO new];
+        NSLog(@"Access Token:%@",[[MGUserDefaults sharedDefault] getAccessToken]);
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        [contactDAO importContactForUserId:userId contactList:array accessToken:[[MGUserDefaults sharedDefault] getAccessToken] UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,ContactImportPostFix] WithSuccessCallBack:^(BOOL success, NSDictionary *dataDictionary, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
+            });
+            
+        }];
+
+        
+    }
+    
+    
+}
+
 #pragma mark - Facebook Handling
 -(void)getEmailAddress
 {
@@ -549,11 +606,13 @@ dismissViewController:(UIViewController *)viewController {
         {
             _phoneContactList = [NSMutableArray new];
         }
+        
+        [_phoneContactList removeAllObjects];
         [addressBook enumerateContactsWithFetchRequest:request error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop)
         {
             MGContactItemsModel *contactModel = [MGContactItemsModel new];
             contactModel.contactType = ContactTypes_Contact;
-            contactModel.displayName = [NSString stringWithFormat:@"%@ %@",contact.givenName, contact.familyName];
+            contactModel.displayName = [NSString stringWithFormat:@"%@ %@",contact.givenName, contact.givenName];
             
             for (CNLabeledValue *label in contact.emailAddresses)
             {
@@ -566,21 +625,42 @@ dismissViewController:(UIViewController *)viewController {
             }
             for (CNLabeledValue *label in contact.phoneNumbers) {
                 NSString *phone = [[label.value stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
-                NSString *ph = [phone stringByReplacingOccurrencesOfString:@"+91" withString:@""];
+                
+                CNPhoneNumber *phoneNo = label.value;
+                
+                NSString *phoneNumber = [phoneNo valueForKey:@"digits"];
+                
+              	/*  NSString *ph = [phone stringByReplacingOccurrencesOfString:@"+91" 	withString:@""];
                 NSString *num = [ph stringByReplacingOccurrencesOfString:@"-" withString:@""];
-                if ([phone length] > 0) {
-                    contactModel.phoneNumber = [num integerValue];
+                 NSString *num1 = [num stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                
+                  NSString *num2 = [num1 stringByReplacingOccurrencesOfString:@")" withString:@""];*/
+                
+                if ([phoneNumber length] > 0) {
+                    
+                   contactModel.phoneNumber = [phoneNumber integerValue];
                 }
-            }
-            [self.phoneContactList addObject:contactModel];
+               
             
-            [self fetchContactsForUser];
+            }
+            
+           
+            
+             [self.phoneContactList addObject:contactModel];
+            //[self fetchContactsForUser];
         }];
+        
+         [self compareData];
     }
     else
     {
-        [self fetchContactsForUser];
+        //[self fetchContactsForUser];
     }
+}
+
+#pragma mark- getAllPhoneContacts...
+-(void)getPhoneContact{
+    
 }
 
 #pragma mark - Left Menu Deleagte
@@ -640,7 +720,8 @@ dismissViewController:(UIViewController *)viewController {
             
         case MenuItem_LogOut:
         {
-            
+            AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+            [delegate addLoginASRootViewController];
         }
             
             break;
