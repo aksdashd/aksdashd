@@ -45,8 +45,6 @@
                                     <constraint firstAttribute="height" constant="25" id="JUE-Qz-uvI"/>
                                     <constraint firstAttribute="width" constant="25" id="Qqo-ln-tr9"/>
                                 </constraints>
-                                <state key="normal" image="select"/>
-                                <state key="selected" image="accept"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,12 +76,10 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="circleView" destination="Kh0-l3-uau" id="nhk-pa-zjG"/>
+                <outlet property="userAddButton" destination="cV4-Gk-b4E" id="dhL-Lq-7qq"/>
                 <outlet property="userImage" destination="Dti-fv-yaU" id="6CU-y9-f9V"/>
+                <outlet property="userName" destination="V9b-hD-95k" id="ej1-XG-ozM"/>
             </connections>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="accept" width="43" height="43"/>
-        <image name="select" width="40" height="40"/>
-    </resources>
 </document>

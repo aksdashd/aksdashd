@@ -16,6 +16,22 @@
 
 #import "Reachability.h"
 
+#import <AddressBook/AddressBook.h>
+
+#import <AddressBookUI/AddressBookUI.h>
+
+#import <Contacts/Contacts.h>
+
+#import <ContactsUI/ContactsUI.h>
+
+//#import "MGLeftMenu.h"
+
+#import "MGContactsDAO.h"
+
+#import "MBProgressHUD.h"
+
+#import "MGContactItemsModel.h"
+
 static const NSString *LoginPostFix = @"login";
 
 @interface MGMainSignInViewController ()
@@ -184,6 +200,7 @@ static const NSString *LoginPostFix = @"login";
         }
         else
         {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             MGSignInDAO *signInDAO = [MGSignInDAO new];
             [signInDAO userLoginWithUser:self.userName.text
                                 Password:self.userPassword.text
@@ -193,6 +210,12 @@ static const NSString *LoginPostFix = @"login";
                              DeviceToken:delegate.deviceToken
                                UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,LoginPostFix]
                      WithSuccessCallBack:^(BOOL success,NSDictionary *responseData ,NSError *error) {
+                         
+                         dispatch_async(dispatch_get_main_queue() , ^{
+                             
+                                 [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             
+                         });
                          
                          if (responseData != nil)
                          {
@@ -208,7 +231,8 @@ static const NSString *LoginPostFix = @"login";
                                  [[MGUserDefaults sharedDefault] setFUllName:[dicData objectForKey:FULL_NAME]];
                                  [[MGUserDefaults sharedDefault] setDisplayName:[dicData objectForKey:DISPLAY_NAME]];
                                  [[MGUserDefaults sharedDefault] setAccessToken:[dicData objectForKey:ACCESS_TOKEN]];
-                                 [delegate addTabBarAsRootViewController];
+                                 
+                                 [self getAllContacts];
                              }
                              else
                              {
@@ -329,6 +353,119 @@ static const NSString *LoginPostFix = @"login";
         returnValue = YES;
     }
     return returnValue;
+}
+
+#pragma mark - fetch contacts and add to the circles...
+- (void)getAllContacts
+{
+    NSMutableArray *phoneContactList = nil;
+    
+    if ([CNContactStore class])
+    {
+        CNContactStore *addressBook = [[CNContactStore alloc] init];
+        
+        NSArray *keysToFetch = @[CNContactEmailAddressesKey,
+                                 CNContactFamilyNameKey,
+                                 CNContactGivenNameKey,
+                                 CNContactPhoneNumbersKey,
+                                 CNContactPostalAddressesKey];
+        
+        CNContactFetchRequest *request = [[CNContactFetchRequest alloc] initWithKeysToFetch:keysToFetch];
+        if (phoneContactList == nil)
+        {
+            phoneContactList = [NSMutableArray new];
+        }
+        
+        [phoneContactList removeAllObjects];
+        [addressBook enumerateContactsWithFetchRequest:request error:nil usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop)
+         {
+             MGContactItemsModel *contactModel = [MGContactItemsModel new];
+             contactModel.contactType = ContactTypes_Contact;
+             contactModel.displayName = [NSString stringWithFormat:@"%@ %@",contact.givenName, contact.givenName];
+             
+             for (CNLabeledValue *label in contact.emailAddresses)
+             {
+                 NSString *email = label.value;
+                 NSLog(@"%@",email);
+                 if (email.length > 0)
+                 {
+                     contactModel.emailAddress = email;
+                 }
+             }
+             for (CNLabeledValue *label in contact.phoneNumbers) {
+                 NSString *phone = [[label.value stringValue] stringByReplacingOccurrencesOfString:@" " withString:@""];
+                 
+                 CNPhoneNumber *phoneNo = label.value;
+                 
+                 NSString *phoneNumber = [phoneNo valueForKey:@"digits"];
+                 
+                 /*  NSString *ph = [phone stringByReplacingOccurrencesOfString:@"+91" 	withString:@""];
+                  NSString *num = [ph stringByReplacingOccurrencesOfString:@"-" withString:@""];
+                  NSString *num1 = [num stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                  
+                  NSString *num2 = [num1 stringByReplacingOccurrencesOfString:@")" withString:@""];*/
+                 
+                 if ([phoneNumber length] > 0) {
+                     
+                     contactModel.phoneNumber = [phoneNumber integerValue];
+                 }
+                 
+                 
+             }
+             
+             
+             
+             [phoneContactList addObject:contactModel];
+             //[self fetchContactsForUser];
+         }];
+        
+        if([phoneContactList count]>0){
+            [self importContactAPI:phoneContactList];
+        }
+        
+        //[self compareData];
+    }
+    else
+    {
+        //[self fetchContactsForUser];
+    }
+}
+
+-(void)importContactAPI:(NSMutableArray *)phoneContactsAPI{
+     NSMutableArray *array = [NSMutableArray new];
+    for(MGContactItemsModel *contact in phoneContactsAPI){
+        NSDictionary *contactDictionary = @{@"name":contact.displayName,
+                                            @"email":contact.emailAddress,
+                                            @"contact":[[NSNumber numberWithInteger:contact.phoneNumber] stringValue],
+                                            @"source":@"1"
+                                            };
+       
+        [array addObject:contactDictionary];
+    }
+    
+   
+    
+    NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
+    MGContactsDAO *contactDAO = [MGContactsDAO new];
+    NSLog(@"Access Token:%@",[[MGUserDefaults sharedDefault] getAccessToken]);
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+     __block AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    [contactDAO importContactForUserId:userId contactList:array accessToken:[[MGUserDefaults sharedDefault] getAccessToken] UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,ContactImportPostFix] WithSuccessCallBack:^(BOOL success, NSDictionary *dataDictionary, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+           
+            
+            [delegate addTabBarAsRootViewController];
+            
+        });
+        
+    }];
+    
+
+    
 }
 
 @end

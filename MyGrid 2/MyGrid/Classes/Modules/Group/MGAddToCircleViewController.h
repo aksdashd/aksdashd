@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGGrojiMainModel.h"
+@protocol AddCircle
+@required
+-(void)createCircle:(NSString *)name image:(NSString *)base64Image;
+@end
 
 @interface MGAddToCircleViewController : UIViewController
 @property(strong,nonatomic)NSMutableArray *userListArray;
 @property (weak, nonatomic) IBOutlet UITableView *addUsersToCirclesTableView;
-
+@property(nonatomic,assign)BOOL createCirle;
+@property(nonatomic,weak)id <AddCircle> delegate;
+@property(nonatomic,strong)MGGrojiMainModel *circleModel;
 
 @end

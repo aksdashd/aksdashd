@@ -138,19 +138,6 @@
                                 <action selector="ViewUsersAction:" destination="-1" eventType="touchUpInside" id="jn1-Fk-Aeh"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raO-9o-7kA">
-                            <rect key="frame" x="294" y="0.0" width="120" height="32"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="120" id="wyZ-la-HAP"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <state key="normal" title="Manage Users">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="actionAddUser" destination="-1" eventType="touchUpInside" id="JeF-Zz-pJS"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.57647058819999997" green="0.69411764710000001" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -158,15 +145,12 @@
                         <constraint firstItem="SuG-6G-VfI" firstAttribute="leading" secondItem="aOa-w4-OWP" secondAttribute="leading" id="3ro-jZ-4cK"/>
                         <constraint firstAttribute="bottom" secondItem="j3M-vM-Wgs" secondAttribute="bottom" constant="6" id="EWm-xG-1DA"/>
                         <constraint firstItem="j3M-vM-Wgs" firstAttribute="leading" secondItem="nbS-H1-l8R" secondAttribute="trailing" constant="10" id="HEA-ma-vzW"/>
-                        <constraint firstAttribute="bottom" secondItem="raO-9o-7kA" secondAttribute="bottom" constant="1" id="Hhc-Jn-UeL"/>
                         <constraint firstAttribute="trailing" secondItem="SuG-6G-VfI" secondAttribute="trailing" constant="200" id="JdQ-YY-dXb"/>
                         <constraint firstItem="nbS-H1-l8R" firstAttribute="top" secondItem="aOa-w4-OWP" secondAttribute="top" id="Kek-eD-37O"/>
                         <constraint firstItem="nbS-H1-l8R" firstAttribute="leading" secondItem="aOa-w4-OWP" secondAttribute="leading" constant="4" id="ZcX-An-kae"/>
-                        <constraint firstAttribute="trailing" secondItem="raO-9o-7kA" secondAttribute="trailing" id="ghz-AE-NSe"/>
                         <constraint firstItem="SuG-6G-VfI" firstAttribute="top" secondItem="aOa-w4-OWP" secondAttribute="top" constant="2" id="iqH-tv-7bb"/>
                         <constraint firstAttribute="trailing" secondItem="j3M-vM-Wgs" secondAttribute="trailing" constant="13" id="jc6-1w-VEz"/>
                         <constraint firstItem="j3M-vM-Wgs" firstAttribute="top" secondItem="aOa-w4-OWP" secondAttribute="top" constant="6" id="qKU-KF-6XS"/>
-                        <constraint firstItem="raO-9o-7kA" firstAttribute="top" secondItem="aOa-w4-OWP" secondAttribute="top" id="r37-nY-Cd9"/>
                         <constraint firstAttribute="bottom" secondItem="SuG-6G-VfI" secondAttribute="bottom" constant="1" id="yMl-oY-bMg"/>
                     </constraints>
                 </view>

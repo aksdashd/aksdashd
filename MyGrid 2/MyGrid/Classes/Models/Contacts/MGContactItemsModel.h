@@ -22,6 +22,7 @@
 
 @property (assign, nonatomic, readwrite) NSInteger phoneNumber;
 
+
 @property (assign, nonatomic) BOOL isSendInvite;
 
 //To be used for showing +image on Image for a user if he is in the particular circle

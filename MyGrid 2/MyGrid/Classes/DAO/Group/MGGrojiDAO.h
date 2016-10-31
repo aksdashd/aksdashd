@@ -18,6 +18,8 @@ static NSString *const CircleTapPostFix = @"circletap";
 
 static NSString *const circleoptn = @"circleoptn";
 
+static NSString *const CircleUsers = @"circleusers";
+
 typedef void(^ResponseBlock)(BOOL success,NSDictionary *dataDictionary, NSError *error);
 
 @interface MGGrojiDAO : NSObject

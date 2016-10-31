@@ -60,10 +60,12 @@ static NSString *const DemoDeviceToken = @"740f4707bebcf74f9b7c25d48e3358945f6aa
 #if (TARGET_OS_SIMULATOR)
     
     self.deviceToken = DemoDeviceToken;
-    [[MGUserDefaults sharedDefault] setAccessToken:ACCESS_TOKEN];
+    /*[[MGUserDefaults sharedDefault] setAccessToken:ACCESS_TOKEN];*/
+    
+    
     //self.latestLocation = [[CLLocation alloc] initWithLatitude:12.9716 longitude:77.5946];
     self.latestLocation = [[CLLocation alloc] initWithLatitude:19.049213 longitude:72.898833];
-    [[MGUserDefaults sharedDefault] setUserId:[userIDsaved integerValue]];
+   // [[MGUserDefaults sharedDefault] setUserId:[userIDsaved integerValue]];
     
 #endif
     

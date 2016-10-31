@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
                                     MGGrojiContactsButtonDeleagte,
                                     UIImagePickerControllerDelegate,
                                     UINavigationControllerDelegate,
-                                    MGGrojiCollectionViewDelegate>
+                                    MGGrojiCollectionViewDelegate,AddCircle>
 
 @property (weak, nonatomic, readwrite) IBOutlet UIView *groupScrollableView;
 
@@ -496,9 +496,9 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
     
 }
 
-- (IBAction)actionAddUser
+- (IBAction)actionAddUser:(UIButton *)sender
 {
-    [self fetchContactsForUser];
+    //[self fetchContactsForUser];
     
     [self createStubForUsers];
     if(self.addToCircleVC == nil)
@@ -507,6 +507,13 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
     //[self.addToCircleVC setFrame:]
     self.addToCircleVC.userListArray = self.userContactList;
     
+    if(sender.tag == ButtonOptionType_Existing){
+        self.addToCircleVC.circleModel = self.selectedModel;
+         self.addToCircleVC.createCirle = NO;
+    }else{
+         self.addToCircleVC.createCirle = YES;
+    }
+   
     [self presentViewController:self.addToCircleVC animated:YES completion:^{
         
         [self.addToCircleVC.addUsersToCirclesTableView reloadData];
@@ -532,7 +539,11 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
     switch (model.groupType) {
         case ButtonOptionType_New:
         {
-            self.nameAndPhotoView.hidden = NO;
+            //self.nameAndPhotoView.hidden = NO;
+            
+            UIButton *sender = [UIButton new];
+            sender.tag = ButtonOptionType_New;
+            [self actionAddUser:sender];
             
         }
             break;
@@ -541,12 +552,16 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
         {
             //call service for group friends
             self.selectedModel = model;
+            UIButton *sender = [UIButton new];
+            sender.tag = ButtonOptionType_Existing;
+            [self actionAddUser:sender];
             //[self fetchUsersServiceForCirlce:model];
             
         }
             break;
     }
 }
+
 
 -(void)fetchUsersServiceForCirlce:(MGGrojiMainModel *)model{
     model = self.selectedModel;
@@ -728,7 +743,9 @@ typedef NS_ENUM(NSInteger, DistanceFilterOption)
      self.nameAndPhotoView.hidden = YES;
     MGGrojiDAO *grojiDAO = [MGGrojiDAO new];
     NSInteger userId = [[MGUserDefaults sharedDefault] getUserId];
-
+    
+    
+    
     [grojiDAO createNewCircle:userId circleName:createNewCircle accessToken:[[MGUserDefaults sharedDefault] getAccessToken]UrlString:[NSString stringWithFormat:@"%@%@",BASE_URL,CreatecirclePostFix]  WithSuccessCallBack:^(BOOL success, NSDictionary *dataDictionary, NSError *error) {
         
         if (dataDictionary != nil)
@@ -966,6 +983,12 @@ shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath;
         MGGrojiCircleFriendModel *model = [_arrCircleFriends objectAtIndex:item];
         NSLog(@"%@",model.friendName);
     }
+}
+
+#pragma -mark add circle delegate methods...
+
+-(void)createCircle:(NSString *)name image:(NSString *)base64Image{
+    [self createNewCircle:name];
 }
 
 

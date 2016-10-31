@@ -160,17 +160,17 @@
                                  {
                                      MGContactItemsModel *model = [MGContactItemsModel new];
                                      NSDictionary *dataDictionary = obj;
-                                     model.displayName = [dataDictionary objectForKey:DISPLAY_NAME];
+                                     model.displayName = [dataDictionary objectForKey:USER_NAME];
                                      model.contactId = [[dataDictionary objectForKey:USER_ID] integerValue];
                                      [self.contactsList addObject:model];
                                      
                                      if (idx == [dataArray count] - 1)
                                      {
-                                         [self compareData];
+                                //         [self compareData];
                                      }
                                 }];
                                 
-                                
+                                 [self.tableContacts reloadData];
                             }
                             else
                             {
@@ -191,6 +191,7 @@
     
     
     [self.arrayForContacts addObjectsFromArray:self.phoneContactList];
+    
     
     
     /*  if (_arrayForContacts == nil)
@@ -403,7 +404,7 @@ dismissViewController:(UIViewController *)viewController {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.arrayForContacts count];
+    return [self.contactsList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -418,7 +419,7 @@ dismissViewController:(UIViewController *)viewController {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
-    MGContactItemsModel *model = [self.arrayForContacts objectAtIndex:indexPath.row];
+    MGContactItemsModel *model = [self.contactsList objectAtIndex:indexPath.row];
     cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2;
     cell.userImage.layer.masksToBounds = YES;
     cell.userName.text = model.displayName;
@@ -433,6 +434,10 @@ dismissViewController:(UIViewController *)viewController {
     layer.frame = cellFrame;
     layer.backgroundColor = bgColor.CGColor;
     [cell.containerView.layer addSublayer:layer];
+    if(model.contactId != 0){
+        [cell.inviteButton setHidden:YES];
+    }
+    
     //[cell.containerView addSubview:cell.userImage];
     //[cell.containerView addSubview:cell.userName];
     //[cell.containerView addSubview:cell.userEmail];
@@ -647,10 +652,11 @@ dismissViewController:(UIViewController *)viewController {
            
             
              [self.phoneContactList addObject:contactModel];
-            //[self fetchContactsForUser];
+           
         }];
         
-         [self compareData];
+         [self fetchContactsForUser];
+         //[self compareData];
     }
     else
     {
