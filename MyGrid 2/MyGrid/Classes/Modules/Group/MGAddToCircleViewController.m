@@ -125,6 +125,15 @@
    // cell.userImage.image = [UIImage imageNamed:@"sample_user_image1"];
     MGGrojiCircleFriendModel *user = [_userListArray objectAtIndex:indexPath.row];
     
+    if(cell.userImage.layer.borderWidth != 1.8){
+        cell.userImage.layer.borderWidth = 1.8;
+        cell.userImage.layer.borderColor = [[UIColor whiteColor] CGColor];
+        cell.userImage.layer.cornerRadius = cell.userImage.frame.size.height / 2;
+        cell.userImage.layer.masksToBounds = YES;
+        
+    
+    }
+    
     if(user.friendImageURL){
         [self loadFromURL:[NSURL URLWithString: user.friendImageURL]
                  callback:^(UIImage *image) {
